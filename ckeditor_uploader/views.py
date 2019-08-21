@@ -205,6 +205,8 @@ def browse(request):
         'show_dirs': show_dirs,
         'dirs': dir_list,
         'files': files,
+        'images': [f for f in files if f["is_image"]],
+        'other_files': [f for f in files if not f["is_image"]],
         'form': form
     }
     return render(request, 'ckeditor/browse.html', context)

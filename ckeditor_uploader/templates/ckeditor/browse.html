@@ -23,7 +23,7 @@
     <body>
         <div id="page">
             <div id="container" style="width: 880px">
-                {% if files %}
+                {% if images %}
                     <h2>Browse for the image you want, then click 'Embed Image' to continue...</h2>
                 {% else %}
                     <h2>No images found. Upload images using the 'Image Button' dialog's 'Upload' tab.</h2>
@@ -43,15 +43,16 @@
                         {{ form }}
                     </form>
                 </div>
+
                 <div id="thumbs" class="navigation">
                     <ul class="thumbs noscript">
                         {% if show_dirs %}
                             {% for dir in dirs %}
                             <li>Images in: {{ dir }}</li>  
-                                    {% for file in files %}
+                                    {% for file in images %}
                                         {% if dir in file.src %}
                                             <li>
-                                                <a class="thumb" href="{% if file.is_image %}{{ file.src }}{% else %}{{ file.thumb }}{% endif %}">
+                                                <a class="thumb" href="{{ file.src }}">
                                                     <img src="{{ file.thumb }}" style="max-width: 75px;"/>
                                                     {% if file.visible_filename %}
                                                         <span class="filename">{{ file.visible_filename }}</span>
@@ -67,9 +68,9 @@
                                     {% endfor %} <!-- for file in files -->                       
                             {% endfor %} <!-- for dir in dirs -->   
                         {% else %}
-                            {% for file in files %}
+                            {% for file in images %}
                                 <li>
-                                    <a class="thumb" href="{% if file.is_image %}{{ file.src }}{% else %}{{ file.thumb }}{% endif %}">
+                                    <a class="thumb" href="{{ file.src }}">
                                         <img src="{{ file.thumb }}" style="max-width: 75px;"/>
                                         {% if file.visible_filename %}
                                             <span class="filename">{{ file.visible_filename }}</span>
@@ -86,6 +87,34 @@
                     </ul>  
                 </div>
                 <div style="clear: both;"></div>
+            <div>
+             {% if images %}
+                    <h2>Browse for the file you want, then click to continue...</h2>
+                {% else %}
+                    <h2>No files found. Upload files using the 'Link's Button' dialog's 'Upload' tab.</h2>
+                {% endif %}
+                <ul>
+                    {% if show_dirs %}
+                            {% for dir in dirs %}
+                            <li>Files in: {{ dir }}</li>
+                                    {% for file in other_files %}
+                                        {% if dir in file.src %}
+                                            <li>
+                                                <a href="{{ file.src }}" class="embed">{{ file.visible_filename }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %} <!-- for file in files -->
+                            {% endfor %} <!-- for dir in dirs -->
+                        {% else %}
+                            {% for file in other_files %}
+                                <li>
+                                    <a href="{{ file.src }}" class="embed">{{ file.visible_filename }}
+                                    </a>
+                                </li>
+                            {% endfor %} <!-- for file in files -->
+                        {% endif %}
+                </ul>
+            </div>
             </div>
         </div>
         <script type="text/javascript">
